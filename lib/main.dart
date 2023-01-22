@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:planar_flutter_version/models/vacation.dart';
+import 'package:planar_flutter_version/widgets/new_vacation.dart';
 import './widgets/vacations_list.dart';
 
 void main() => runApp(MyApp());
@@ -18,18 +20,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Planar App',
       theme: ThemeData(
-          primaryColor: Color.fromRGBO(81, 157, 153, 1),
-          accentColor: Color.fromRGBO(54, 115, 111, 1),
-          errorColor: Colors.redAccent,
-          textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
-                color: Color.fromRGBO(81, 157, 153, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              )),
-          appBarTheme: AppBarTheme(
-              titleTextStyle:
-                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+        primaryColor: Color.fromRGBO(81, 157, 153, 1),
+        // accentColor: Color.fromRGBO(54, 115, 111, 1),
+        errorColor: Colors.redAccent,
+        textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            )),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -41,23 +46,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final appName = "Planar App";
+  final List<Vacation> _userVacations = [];
 
-  final dateLabel = "DD/MM/YYYY";
+  void _addNewVacation(
+    String vacReason,
+    String chosenStartDate,
+    String chosenEndDate,
+  ) {
+    final newVac = Vacation(
+      id: DateTime.now().toString(),
+      reason: vacReason,
+      startdate: chosenStartDate,
+      enddate: chosenEndDate,
+    );
+
+    setState(() {
+      _userVacations.add(newVac);
+    });
+  }
+
+  // final appName = "Planar App";
+
+  // final dateLabel = "DD/MM/YYYY";
+
+  void _deleteVacation(String id) {
+    setState(() {
+      _userVacations.removeWhere((vc) => vc.id == id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(appName),
+          title: Text('Planar App'),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                height: 480,
+                // height: 550,
                 margin: EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,94 +100,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Theme.of(context).primaryColor),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      'Start date',
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                    ),
-                    Container(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: dateLabel,
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(
-                            Icons.calendar_month,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        onSubmitted: (value) {},
-                      ),
-                    ),
-                    Text(
-                      'End date',
-                      style: TextStyle(
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Container(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: dateLabel,
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(
-                            Icons.calendar_month,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        onSubmitted: (value) {},
-                      ),
-                    ),
-                    Text(
-                      'Reason',
-                      style: TextStyle(
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    Container(
-                      child: Expanded(
-                        child: TextField(
-                          maxLength: 250,
-                          expands: true,
-                          maxLines: null,
-                          onSubmitted: (value) {},
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: null,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: Text('Submit'),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text('See all...'),
-                          style: ElevatedButton.styleFrom(
-                              foregroundColor: Theme.of(context).primaryColor),
-                        ),
-                      ],
+                    NewVacation(_addNewVacation),
+                    SizedBox(
+                      height: 50,
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    VacationList(),
-                    VacationList(),
-                    VacationList(),
-                  ],
-                ),
+                child: VacationList(_userVacations, _deleteVacation),
               ),
             ],
           ),
