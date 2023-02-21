@@ -15,7 +15,10 @@ class VacationList extends StatelessWidget {
       child: vacations.isEmpty
           ? Text(
               'Nothing to Display',
-              style: Theme.of(context).textTheme.headline6,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor),
             )
           : ListView.builder(
               itemCount: vacations.length,

@@ -84,7 +84,7 @@ class _NewVacationState extends State<NewVacation> {
       children: [
         Text(
           'Start date',
-          style: TextStyle(color: Color.fromRGBO(54, 115, 111, 1)),
+          style: TextStyle(color: Colors.cyan[800]),
         ),
         SizedBox(
           height: 10,
@@ -96,7 +96,7 @@ class _NewVacationState extends State<NewVacation> {
             border: OutlineInputBorder(),
             suffixIcon: Icon(
               Icons.calendar_month,
-              color: Color.fromRGBO(81, 157, 153, 1),
+              color: Colors.cyan[800],
             ),
           ),
           onTap: _presentStartDatePicker,
@@ -108,7 +108,7 @@ class _NewVacationState extends State<NewVacation> {
         Text(
           'End date',
           style: TextStyle(
-            color: Color.fromRGBO(54, 115, 111, 1),
+            color: Colors.cyan[800],
           ),
         ),
         TextField(
@@ -116,10 +116,7 @@ class _NewVacationState extends State<NewVacation> {
           decoration: InputDecoration(
             labelText: 'DD/MM/YYYY',
             border: OutlineInputBorder(),
-            suffixIcon: Icon(
-              Icons.calendar_month,
-              color: Color.fromRGBO(81, 157, 153, 1),
-            ),
+            suffixIcon: Icon(Icons.calendar_month, color: Colors.cyan[800]),
           ),
           onTap: _presentEndDatePicker,
           // onSubmitted: (_) => _submitData,
@@ -130,7 +127,7 @@ class _NewVacationState extends State<NewVacation> {
         Text(
           'Reason',
           style: TextStyle(
-            color: Color.fromRGBO(54, 115, 111, 1),
+            color: Colors.cyan[800],
           ),
         ),
         Container(
@@ -154,14 +151,12 @@ class _NewVacationState extends State<NewVacation> {
             ElevatedButton(
               onPressed: _submitData,
               child: Text('Submit'),
-              style: TextButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(81, 157, 153, 1)),
+              style: TextButton.styleFrom(backgroundColor: Colors.cyan[800]),
             ),
             TextButton(
               onPressed: () {},
               child: Text('See all...'),
-              style: TextButton.styleFrom(
-                  foregroundColor: Color.fromRGBO(81, 157, 153, 1)),
+              style: TextButton.styleFrom(foregroundColor: Colors.cyan[800]),
             ),
           ],
         ),
