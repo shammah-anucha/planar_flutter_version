@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planar_fluteer_version/screen/event_detail.dart';
 import '../screen/calendar_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/inbox_screen.dart';
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       routes: {
         // '/': (ctx) => HomeScreen(),
         RosterScreen.routeName: (ctx) => RosterScreen(),
+        EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
         UnavailabilityScreen.routeName: (ctx) => UnavailabilityScreen(),
         UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
         CalendarScreen.routeName: (ctx) => CalendarScreen(),

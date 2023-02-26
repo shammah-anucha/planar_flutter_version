@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planar_fluteer_version/models/request.dart';
 import 'package:planar_fluteer_version/widgets/navbar.dart';
+import 'package:intl/intl.dart';
+import '../data.dart';
 
 class InboxScreen extends StatefulWidget {
   static const routeName = '/inbox';
@@ -11,20 +13,7 @@ class InboxScreen extends StatefulWidget {
 
 class _InboxScreenState extends State<InboxScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
-  final List<Request> requests = [
-    Request(
-        id: 'r1',
-        title: "Beach Party- 11:00",
-        eventdate: DateTime.now(),
-        role: "Custome Designer"),
-    Request(
-        id: 'r2', title: "Hang Out", eventdate: DateTime.now(), role: "Usher"),
-    Request(
-        id: 'r3',
-        title: "Face Painting",
-        eventdate: DateTime.now(),
-        role: "Artist"),
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +35,7 @@ class _InboxScreenState extends State<InboxScreen> {
           key: _scaffoldkey,
           body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 'Respond to Requests',
                 style: TextStyle(
@@ -56,11 +45,11 @@ class _InboxScreenState extends State<InboxScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 25),
+            // SizedBox(height: 2),
             Column(
                 children: requests.map((request) {
               return Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(5.0),
                 child: ListTile(
                   title: Text(
                     request.title,
@@ -72,7 +61,9 @@ class _InboxScreenState extends State<InboxScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(request.role),
-                      Text(request.eventdate.toString()),
+                      Text(DateFormat.yMMMEd()
+                          .format(request.eventdate)
+                          .toString()),
                       Row(
                         children: [
                           ElevatedButton(

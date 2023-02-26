@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:planar_fluteer_version/models/events.dart';
 import 'package:planar_fluteer_version/widgets/navbar.dart';
+import '../data.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -11,26 +11,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
-  final List<Events> events = [
-    Events(
-        id: 'e1',
-        title: "Beach Party",
-        eventdate: DateTime.now(),
-        imageUrl:
-            "https://images.pexels.com/photos/40815/youth-active-jump-happy-40815.jpeg"),
-    Events(
-        id: 'e2',
-        title: "Hang Out",
-        eventdate: DateTime.now(),
-        imageUrl:
-            "https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-    Events(
-        id: 'e3',
-        title: "Face Painting",
-        eventdate: DateTime.now(),
-        imageUrl:
-            "https://images.pexels.com/photos/904276/pexels-photo-904276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -98,14 +78,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// ListView.builder(
-//               itemCount: events.length,
-//               itemBuilder: ((context, index) {
-//                 return Card(
-//                       child: Image.network(
-//                     events[index].imageUrl,
-//                     height: 150,
-//                   ));
-//               }),
-//             ),
