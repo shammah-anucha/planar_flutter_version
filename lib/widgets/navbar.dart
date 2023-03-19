@@ -17,22 +17,33 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
+  var _expanded = false;
+
+  // GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
   Widget buildListTile(String title, Function tapHandler) {
     return ListTile(
       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
       // hoverColor: Colors.grey[300],
       title: Text(title),
       onTap: tapHandler,
+      trailing: title == 'Unavailability'
+          ? IconButton(
+              onPressed: () {
+                setState(() {
+                  _expanded = !_expanded;
+                });
+              },
+              icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more))
+          : null,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 200,
+      width: 220,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           buildListTile('Home', () {
             Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -40,14 +51,47 @@ class _NavBarState extends State<NavBar> {
           buildListTile('Roster', () {
             Navigator.of(context).pushReplacementNamed(RosterScreen.routeName);
           }),
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.5,
+          //   child: Row(
+          //     children: [
           buildListTile('Unavailability', () {
             Navigator.of(context)
                 .pushReplacementNamed(UnavailabilityScreen.routeName);
           }),
+          if (_expanded)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: ListView(children: [
+                buildListTile('Vacations', () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(UpComingEventScreen.routeName);
+                }),
+                buildListTile('Single Day', () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(UpComingEventScreen.routeName);
+                }),
+              ]),
+            ),
+          //       IconButton(onPressed: () {}, icon: Icon(Icons.expand_more))
+          //     ],
+          //   ),
+          // ),
+
           buildListTile('Upcoming Events', () {
             Navigator.of(context)
                 .pushReplacementNamed(UpComingEventScreen.routeName);
           }),
+          // IconButton(onPressed: () {}, icon: Icon(Icons.expand_more)),
+          // IconButton(
+          //     onPressed: () {
+          //       // setState(() {
+          //       //   _expanded = !_expanded;
+          //       // });
+          //     },
+          //     icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more))
+          // ]),
           buildListTile('Calendar', () {
             Navigator.of(context)
                 .pushReplacementNamed(CalendarScreen.routeName);
@@ -59,7 +103,7 @@ class _NavBarState extends State<NavBar> {
             Navigator.of(context).pushReplacementNamed(ProfileScreen.routeName);
           }),
           SizedBox(
-            height: 250,
+            height: MediaQuery.of(context).size.height * 0.25,
           ),
           buildListTile('Logout', () {
             Navigator.of(context).pushReplacementNamed(LogoutScreen.routeName);
