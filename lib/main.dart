@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planar_fluteer_version/screen/event_detail.dart';
+import 'package:planar_fluteer_version/screen/singleday_screen.dart';
 import '../screen/calendar_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/inbox_screen.dart';
@@ -7,7 +8,7 @@ import '../screen/logout_screen.dart';
 import '../screen/profile_screen.dart';
 import '../screen/roster_screen.dart';
 import '../screen/setting_screen.dart';
-import '../screen/unavailabily_screen.dart';
+import 'screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
 
 void main() => runApp(HomePage());
@@ -36,7 +37,8 @@ class _HomePageState extends State<HomePage> {
         // '/': (ctx) => HomeScreen(),
         RosterScreen.routeName: (ctx) => RosterScreen(),
         EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
-        UnavailabilityScreen.routeName: (ctx) => UnavailabilityScreen(),
+        VacationsScreen.routeName: (ctx) => VacationsScreen(),
+        SingleDayScreen.routeName: (ctx) => SingleDayScreen(),
         UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
         CalendarScreen.routeName: (ctx) => CalendarScreen(),
         InboxScreen.routeName: (ctx) => InboxScreen(),

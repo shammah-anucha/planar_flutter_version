@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planar_fluteer_version/data.dart';
 import 'package:planar_fluteer_version/models/request.dart';
+import 'package:planar_fluteer_version/screen/singleday_screen.dart';
 import '../screen/calendar_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/inbox_screen.dart';
@@ -8,7 +9,7 @@ import '../screen/logout_screen.dart';
 import '../screen/profile_screen.dart';
 import '../screen/roster_screen.dart';
 import '../screen/setting_screen.dart';
-import '../screen/unavailabily_screen.dart';
+import '../screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
 
 class NavBar extends StatefulWidget {
@@ -51,14 +52,7 @@ class _NavBarState extends State<NavBar> {
           buildListTile('Roster', () {
             Navigator.of(context).pushReplacementNamed(RosterScreen.routeName);
           }),
-          // SizedBox(
-          //   width: MediaQuery.of(context).size.width * 0.5,
-          //   child: Row(
-          //     children: [
-          buildListTile('Unavailability', () {
-            Navigator.of(context)
-                .pushReplacementNamed(UnavailabilityScreen.routeName);
-          }),
+          buildListTile('Unavailability', () {}),
           if (_expanded)
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -66,32 +60,18 @@ class _NavBarState extends State<NavBar> {
               child: ListView(children: [
                 buildListTile('Vacations', () {
                   Navigator.of(context)
-                      .pushReplacementNamed(UpComingEventScreen.routeName);
+                      .pushReplacementNamed(VacationsScreen.routeName);
                 }),
                 buildListTile('Single Day', () {
                   Navigator.of(context)
-                      .pushReplacementNamed(UpComingEventScreen.routeName);
+                      .pushReplacementNamed(SingleDayScreen.routeName);
                 }),
               ]),
             ),
-          //       IconButton(onPressed: () {}, icon: Icon(Icons.expand_more))
-          //     ],
-          //   ),
-          // ),
-
           buildListTile('Upcoming Events', () {
             Navigator.of(context)
                 .pushReplacementNamed(UpComingEventScreen.routeName);
           }),
-          // IconButton(onPressed: () {}, icon: Icon(Icons.expand_more)),
-          // IconButton(
-          //     onPressed: () {
-          //       // setState(() {
-          //       //   _expanded = !_expanded;
-          //       // });
-          //     },
-          //     icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more))
-          // ]),
           buildListTile('Calendar', () {
             Navigator.of(context)
                 .pushReplacementNamed(CalendarScreen.routeName);

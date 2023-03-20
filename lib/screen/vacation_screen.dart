@@ -4,14 +4,14 @@ import '../widgets/vacations_list.dart';
 import '../models/vacation.dart';
 import '../widgets/navbar.dart';
 
-class UnavailabilityScreen extends StatefulWidget {
-  static const routeName = '/unavailability';
+class VacationsScreen extends StatefulWidget {
+  static const routeName = '/vacation';
 
   @override
-  State<UnavailabilityScreen> createState() => _UnavailabilityScreenState();
+  State<VacationsScreen> createState() => _VacationsScreenState();
 }
 
-class _UnavailabilityScreenState extends State<UnavailabilityScreen> {
+class _VacationsScreenState extends State<VacationsScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
   final List<Vacation> _userVacations = [];
 
@@ -37,14 +37,6 @@ class _UnavailabilityScreenState extends State<UnavailabilityScreen> {
       _userVacations.removeWhere((vc) => vc.id == id);
     });
   }
-
-  //   @override
-  // void initState() {
-  //   _pages = [
-  //     {'page': UnavailabilityScreen(), 'title': 'Vacations'},
-  //   ];
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {

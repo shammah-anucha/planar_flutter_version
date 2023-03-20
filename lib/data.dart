@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:planar_fluteer_version/models/days.dart';
 import './models/request.dart';
 import './models/events.dart';
 
@@ -51,4 +52,35 @@ final List<Events> events = [
       location: "Friedrichstr 25",
       host: "Art Culture",
       tags: ["painting", "art", "wine"]),
+];
+
+final DAYS_OF_WEEK = [
+  Days(
+    title: 'Monday',
+    color: Colors.cyan[50],
+  ),
+  Days(
+    title: 'Tuesday',
+    color: Colors.cyan[100],
+  ),
+  Days(
+    title: 'Wednesday',
+    color: Colors.cyan[100],
+  ),
+  Days(
+    title: 'Thursday',
+    color: Colors.cyan[50],
+  ),
+  Days(
+    title: 'Friday',
+    color: Colors.cyan[50],
+  ),
+  Days(
+    title: 'Saturday',
+    color: Colors.cyan[100],
+  ),
+  Days(
+    title: 'Sunday',
+    color: Colors.cyan[100],
+  ),
 ];
