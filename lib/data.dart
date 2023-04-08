@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:planar_fluteer_version/models/days.dart';
 import './models/request.dart';
 import './models/events.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+// DateTime _currentDate = DateTime(2023, 1, 1); // Start date is 1st January, 2023
 
 final List<Request> requests = [
   Request(
@@ -54,33 +57,33 @@ final List<Events> events = [
       tags: ["painting", "art", "wine"]),
 ];
 
-final DAYS_OF_WEEK = [
-  Days(
-    title: 'Monday',
-    color: Colors.cyan[50],
-  ),
-  Days(
-    title: 'Tuesday',
-    color: Colors.cyan[100],
-  ),
-  Days(
-    title: 'Wednesday',
-    color: Colors.cyan[100],
-  ),
-  Days(
-    title: 'Thursday',
-    color: Colors.cyan[50],
-  ),
-  Days(
-    title: 'Friday',
-    color: Colors.cyan[50],
-  ),
-  Days(
-    title: 'Saturday',
-    color: Colors.cyan[100],
-  ),
-  Days(
-    title: 'Sunday',
-    color: Colors.cyan[100],
-  ),
-];
+// final DAYS_OF_WEEK = [
+//   Days(
+//     title: DateFormat.yMd().format(currentDate.add(Duration(days: 0))),
+//     color: Colors.cyan[50],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 1))),
+//     color: Colors.cyan[100],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 2))),
+//     color: Colors.cyan[100],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 3))),
+//     color: Colors.cyan[50],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 4))),
+//     color: Colors.cyan[50],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 5))),
+//     color: Colors.cyan[100],
+//   ),
+//   Days(
+//     title: DateFormat('EEEE').format(_currentDate.add(Duration(days: 6))),
+//     color: Colors.cyan[100],
+//   ),
+// ];

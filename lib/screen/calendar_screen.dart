@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../widgets/navbar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -29,7 +30,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         body: Scaffold(
           key: _scaffoldkey,
-          body: Center(child: Text('This is the Calendar page')),
+          body: TableCalendar(
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: DateTime.now(),
+          ),
           drawer: NavBar(),
         ));
   }
