@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:planar_fluteer_version/widgets/popup.dart';
 import '../screen/singleday_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
 
 class DayItem extends StatefulWidget {
   final String title;
@@ -70,13 +71,14 @@ class _DayItemState extends State<DayItem> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Checkbox(
-                          value: _isChecked,
-                          // groupValue: isChecked,
-                          onChanged: (checked) {
-                            setState(() {
-                              _isChecked = checked;
-                            });
-                          }),
+                        value: _isChecked,
+                        // groupValue: isChecked,
+                        onChanged: (checked) {
+                          setState(() {
+                            _isChecked = checked;
+                          });
+                        },
+                      ),
                       Text(
                         "Unavailable",
                         style: TextStyle(color: Colors.grey[600]),
