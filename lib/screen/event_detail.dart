@@ -9,9 +9,6 @@ import 'package:provider/provider.dart';
 
 class EventDetailScreen extends StatelessWidget {
   static const routeName = '/event-details';
-
-  GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     final eventId = ModalRoute.of(context).settings.arguments as String;
@@ -44,32 +41,25 @@ class EventDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(selectedEvent.title),
           backgroundColor: Theme.of(context).primaryColor,
-          leading: IconButton(
-            icon: Icon(Icons.dehaze),
-            onPressed: () {
-              if (_scaffoldkey.currentState.isDrawerOpen == false) {
-                _scaffoldkey.currentState.openDrawer();
-              } else {
-                _scaffoldkey.currentState.openEndDrawer();
-              }
-            },
-          ),
         ),
         body: Scaffold(
-          key: _scaffoldkey,
           body: Container(
             margin: EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(selectedEvent.imageUrl),
-                buildSectionTitle(context, 'Time: ',
-                    DateFormat.jm().format(selectedEvent.eventdate).toString()),
+                buildSectionTitle(
+                    context,
+                    'Time: ',
+                    DateFormat.jm()
+                        .format(DateTime.parse(selectedEvent.eventdate))
+                        .toString()),
                 buildSectionTitle(
                     context,
                     'Date: ',
                     DateFormat.yMMMMEEEEd()
-                        .format(selectedEvent.eventdate)
+                        .format(DateTime.parse(selectedEvent.eventdate))
                         .toString()),
                 buildSectionTitle(
                     context, 'Location: ', selectedEvent.location),
@@ -97,7 +87,6 @@ class EventDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          drawer: NavBar(),
         ));
   }
 }

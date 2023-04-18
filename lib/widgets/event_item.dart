@@ -61,16 +61,21 @@ class _EventItemState extends State<EventItem> {
                       fontWeight: FontWeight.bold,
                       fontSize: 12),
                 ),
-                Text(
-                  DateFormat.jm().format(event.eventdate).toString(),
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 12),
-                ),
-                Text(
-                  DateFormat.yMMMMEEEEd().format(event.eventdate).toString(),
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor, fontSize: 12),
-                ),
+                (event.time != null)
+                    ? Text(
+                        event.time,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 12),
+                      )
+                    : Text('No time'),
+                // Text(
+                //   DateFormat.yMMMMEEEEd()
+                //       .format(DateTime.tryParse(event.eventdate))
+                //       .toString(),
+                //   style: TextStyle(
+                //       color: Theme.of(context).primaryColor, fontSize: 12),
+                // ),
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

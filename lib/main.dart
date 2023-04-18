@@ -3,8 +3,10 @@ import 'package:planar_fluteer_version/providers/request.dart';
 import 'package:planar_fluteer_version/providers/events.dart';
 import 'package:planar_fluteer_version/providers/requests.dart';
 import 'package:planar_fluteer_version/providers/vacation.dart';
+import 'package:planar_fluteer_version/screen/admin/all_events.dart';
 import 'package:planar_fluteer_version/screen/event_detail.dart';
 import 'package:planar_fluteer_version/screen/singleday_screen.dart';
+import 'package:planar_fluteer_version/widgets/admin/edit_event_item.dart';
 import '../screen/calendar_screen.dart';
 import '../screen/home_screen.dart';
 import '../screen/inbox_screen.dart';
@@ -12,8 +14,10 @@ import '../screen/logout_screen.dart';
 import '../screen/profile_screen.dart';
 import '../screen/roster_screen.dart';
 import '../screen/setting_screen.dart';
+import '../screen/admin/admin_screen.dart';
 import 'screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
+import '../screen/admin/create_event.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(HomePage());
@@ -60,8 +64,11 @@ class _HomePageState extends State<HomePage> {
           CalendarScreen.routeName: (ctx) => CalendarScreen(),
           InboxScreen.routeName: (ctx) => InboxScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          AdminScreen.routeName: (ctx) => AdminScreen(),
           LogoutScreen.routeName: (ctx) => LogoutScreen(),
           SettingsScreen.routeName: (ctx) => SettingsScreen(),
+          CreateEventScreen.routeName: (ctx) => CreateEventScreen(),
+          AdminEventsScreen.routeName: (ctx) => AdminEventsScreen(),
         },
         onGenerateRoute: (settings) {
           print(settings.arguments);

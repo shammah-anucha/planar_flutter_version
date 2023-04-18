@@ -9,6 +9,7 @@ import '../screen/roster_screen.dart';
 import '../screen/setting_screen.dart';
 import '../screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
+import '../screen/admin/admin_screen.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -81,11 +82,10 @@ class _NavBarState extends State<NavBar> {
             Navigator.of(context).pushReplacementNamed(ProfileScreen.routeName);
           }),
           buildListTile('Admin', () {
-            Navigator.of(context)
-                .pushReplacementNamed(SettingsScreen.routeName);
+            Navigator.of(context).pushReplacementNamed(AdminScreen.routeName);
           }),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.20,
           ),
           buildListTile('Logout', () {
             Navigator.of(context).pushReplacementNamed(LogoutScreen.routeName);
