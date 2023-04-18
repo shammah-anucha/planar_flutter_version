@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:planar_fluteer_version/widgets/popup.dart';
-import '../screen/singleday_screen.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:provider/provider.dart';
 
 class DayItem extends StatefulWidget {
   final String title;
@@ -18,25 +13,6 @@ class DayItem extends StatefulWidget {
 class _DayItemState extends State<DayItem> {
   Color _gridColor = Colors.cyan[100];
   bool _isChecked = false;
-
-  void _onConfirmClicked() {
-    if (_isChecked) {
-      setState(() {
-        _gridColor = Colors.redAccent;
-      });
-    }
-  }
-  // var isChecked;
-  // var checked;
-  // DateTime _currentDate =
-  //     DateTime(2023, 1, 1); // Start date is 1st January, 2023
-
-  // void selectCategory(BuildContext ctx) {
-  // void _ischecked() {
-  //   setState(() {
-  //     isChecked = checked;
-  //   });
-  // }
 
   Future<void> showMyDialog(BuildContext context) async {
     return await showDialog(
@@ -90,9 +66,6 @@ class _DayItemState extends State<DayItem> {
               actions: <Widget>[
                 new ElevatedButton(
                   onPressed: () {
-                    // if (value = checked) {
-                    //   widget.color = Theme.of(context).errorColor;
-                    // }
                     Navigator.of(context).pop();
                   },
                   child: const Text('Confirm'),

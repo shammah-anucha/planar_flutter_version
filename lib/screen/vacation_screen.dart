@@ -15,22 +15,22 @@ class _VacationsScreenState extends State<VacationsScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
   final List<Vacation> _userVacations = [];
 
-  void _addNewVacation(
-    String vacReason,
-    String chosenStartDate,
-    String chosenEndDate,
-  ) {
-    final newVac = Vacation(
-      id: DateTime.now().toString(),
-      reason: vacReason,
-      startdate: chosenStartDate,
-      enddate: chosenEndDate,
-    );
+  // void _addNewVacation(
+  //   String vacReason,
+  //   String chosenStartDate,
+  //   String chosenEndDate,
+  // ) {
+  //   final newVac = Vacation(
+  //     id: DateTime.now().toString(),
+  //     reason: vacReason,
+  //     startdate: chosenStartDate,
+  //     enddate: chosenEndDate,
+  //   );
 
-    setState(() {
-      _userVacations.add(newVac);
-    });
-  }
+  //   setState(() {
+  //     _userVacations.add(newVac);
+  //   });
+  // }
 
   void _deleteVacation(String id) {
     setState(() {
@@ -75,7 +75,7 @@ class _VacationsScreenState extends State<VacationsScreen> {
                             color: Theme.of(context).primaryColor),
                       ),
                       SizedBox(height: 20),
-                      NewVacation(_addNewVacation),
+                      NewVacation(),
                       SizedBox(
                         height: 50,
                       ),
@@ -84,7 +84,7 @@ class _VacationsScreenState extends State<VacationsScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: VacationList(_userVacations, _deleteVacation),
+                  child: VacationList(),
                 ),
               ],
             ),

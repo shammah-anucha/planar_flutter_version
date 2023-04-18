@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planar_fluteer_version/data.dart';
-import 'package:planar_fluteer_version/models/request.dart';
 import 'package:planar_fluteer_version/screen/singleday_screen.dart';
 import '../screen/calendar_screen.dart';
 import '../screen/home_screen.dart';
@@ -81,6 +79,10 @@ class _NavBarState extends State<NavBar> {
           }),
           buildListTile('Profile', () {
             Navigator.of(context).pushReplacementNamed(ProfileScreen.routeName);
+          }),
+          buildListTile('Admin', () {
+            Navigator.of(context)
+                .pushReplacementNamed(SettingsScreen.routeName);
           }),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,

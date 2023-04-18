@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:planar_fluteer_version/providers/events.dart';
 import 'package:planar_fluteer_version/widgets/navbar.dart';
 import 'package:intl/intl.dart';
-import '../data.dart';
+// import '../data.dart';
+import 'package:provider/provider.dart';
 
 class EventDetailScreen extends StatelessWidget {
   static const routeName = '/event-details';
@@ -13,7 +15,10 @@ class EventDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final eventId = ModalRoute.of(context).settings.arguments as String;
-    final selectedEvent = events.firstWhere((event) => event.id == eventId);
+    final selectedEvent =
+        Provider.of<Events>(context, listen: false).findById(eventId);
+    // final eventId = ModalRoute.of(context).settings.arguments as String;
+    // final selectedEvent = events.firstWhere((event) => event.id == eventId);
     final String extract_tags = selectedEvent.tags.reduce((value, element) {
       return value + ', ' + element;
     });

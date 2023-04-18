@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:planar_fluteer_version/providers/vacation.dart';
+import 'package:provider/provider.dart';
 
 class NewVacation extends StatefulWidget {
-  final Function addVacation;
+  // final Function addVacation;
 
-  NewVacation(this.addVacation);
+  // NewVacation(this.addVacation);
 
   @override
   State<NewVacation> createState() => _NewVacationState();
@@ -12,28 +14,94 @@ class NewVacation extends StatefulWidget {
 
 class _NewVacationState extends State<NewVacation> {
   final _reasonController = TextEditingController();
+  final _form = GlobalKey<FormState>();
+  var _isInit = true;
+  var _isLoading = false;
   TextEditingController _selectedStartDate = TextEditingController();
   TextEditingController _selectedEndDate = TextEditingController();
+  TextEditingController _selectedReason = TextEditingController();
+  var _editedVacation = Vacation(
+    id: null,
+    reason: '',
+    startdate: '',
+    enddate: '',
+  );
+  var _initValues = {
+    'id': '',
+    'reason': '',
+    'startdate': '',
+    'enddate': '',
+  };
 
-  void _submitData() {
-    final enteredReason = _reasonController.text;
-    final enteredstartdate = _selectedStartDate.text;
-    final enteredenddate = _selectedEndDate.text;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final vacationId = ModalRoute.of(context).settings.arguments as String;
+      if (vacationId != null) {
+        _editedVacation =
+            Provider.of<Vacations>(context, listen: false).findById(vacationId);
+        // _initValues = {
+        //   // 'reason': _editedVacation.reason,
+        //   // 'startdate': _editedVacation.startdate,
+        //   // 'enddate': _editedVacation.enddate,
+        // };
+        _selectedStartDate.text = _editedVacation.startdate;
+        _selectedEndDate.text = _editedVacation.enddate;
+        _selectedReason.text = _editedVacation.reason;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
-    if (enteredReason.isEmpty ||
-        _selectedStartDate == null ||
-        _selectedEndDate == null) {
+  void _saveform() {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
       return;
     }
-
-    widget.addVacation(
-      enteredReason,
-      enteredstartdate,
-      enteredenddate,
-    );
-
-    // Navigator.of(context).pop();
+    _form.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    if (_editedVacation.id != null) {
+      Provider.of<Vacations>(context, listen: false)
+          .updateProduct(_editedVacation.id, _editedVacation);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
+    } else {
+      Provider.of<Vacations>(context, listen: false)
+          .addVacation(_editedVacation);
+      setState(() {
+        _isLoading = false;
+      });
+      _selectedStartDate.clear();
+      _selectedEndDate.clear();
+      _selectedReason.clear();
+      // Navigator.of(context).pop();
+    }
   }
+
+  // void _submitData() {
+  //   final enteredReason = _reasonController.text;
+  //   final enteredstartdate = _selectedStartDate.text;
+  //   final enteredenddate = _selectedEndDate.text;
+
+  //   if (enteredReason.isEmpty ||
+  //       _selectedStartDate == null ||
+  //       _selectedEndDate == null) {
+  //     return;
+  //   }
+
+  //   widget.addVacation(
+  //     enteredReason,
+  //     enteredstartdate,
+  //     enteredenddate,
+  //   );
+
+  //   // Navigator.of(context).pop();
+  // }
 
   void _presentStartDatePicker() {
     showDatePicker(
@@ -79,88 +147,167 @@ class _NewVacationState extends State<NewVacation> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Start date',
-          style: TextStyle(color: Colors.cyan[800]),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          controller: _selectedStartDate,
-          decoration: InputDecoration(
-            labelText: 'DD/MM/YYYY',
-            border: OutlineInputBorder(),
-            suffixIcon: Icon(
-              Icons.calendar_month,
+    return Form(
+      key: _form,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Start date',
+            style: TextStyle(color: Colors.cyan[800]),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            // initialValue: _initValues['startdate'],
+            decoration: InputDecoration(
+              labelText: 'DD/MM/YYYY',
+              border: OutlineInputBorder(),
+              suffixIcon: Icon(Icons.calendar_month, color: Colors.cyan[800]),
+            ),
+            onTap: _presentStartDatePicker,
+            controller: _selectedStartDate,
+            textInputAction: TextInputAction.next,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please provide a date';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _editedVacation = Vacation(
+                reason: _editedVacation.reason,
+                startdate: value,
+                enddate: _editedVacation.enddate,
+                id: _editedVacation.id,
+              );
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'End date',
+            style: TextStyle(
               color: Colors.cyan[800],
             ),
           ),
-          onTap: _presentStartDatePicker,
-          // onSubmitted: (_) => _submitData,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'End date',
-          style: TextStyle(
-            color: Colors.cyan[800],
-          ),
-        ),
-        TextField(
-          controller: _selectedEndDate,
-          decoration: InputDecoration(
-            labelText: 'DD/MM/YYYY',
-            border: OutlineInputBorder(),
-            suffixIcon: Icon(Icons.calendar_month, color: Colors.cyan[800]),
-          ),
-          onTap: _presentEndDatePicker,
-          // onSubmitted: (_) => _submitData,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Reason',
-          style: TextStyle(
-            color: Colors.cyan[800],
-          ),
-        ),
-        Container(
-          height: 150,
-          child: TextField(
-            maxLength: 250,
-            expands: true,
-            maxLines: null,
-            controller: _reasonController,
+          TextFormField(
+            controller: _selectedEndDate,
+            // initialValue: _initValues['enddate'],
             decoration: InputDecoration(
+              labelText: 'DD/MM/YYYY',
               border: OutlineInputBorder(),
-              contentPadding: null,
+              suffixIcon: Icon(Icons.calendar_month, color: Colors.cyan[800]),
             ),
-            // onSubmitted: (_) => _submitData,
+            textInputAction: TextInputAction.next,
+            onEditingComplete: () {
+              setState(() {});
+            },
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please provide a date';
+              }
+              return null;
+            },
+            onTap: _presentEndDatePicker,
+            onSaved: (value) {
+              _editedVacation = Vacation(
+                reason: _editedVacation.reason,
+                startdate: _editedVacation.startdate,
+                enddate: value,
+                id: _editedVacation.id,
+              );
+            },
           ),
-        ),
-        // ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-              onPressed: _submitData,
-              child: Text('Submit'),
-              style: TextButton.styleFrom(backgroundColor: Colors.cyan[800]),
+
+          // TextField(
+          //   controller: _selectedEndDate,
+          //   decoration: InputDecoration(
+          //     labelText: 'DD/MM/YYYY',
+          //     border: OutlineInputBorder(),
+          //     suffixIcon: Icon(Icons.calendar_month, color: Colors.cyan[800]),
+          //   ),
+          //   onTap: _presentEndDatePicker,
+          //   // onSubmitted: (_) => _submitData,
+          // ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Reason',
+            style: TextStyle(
+              color: Colors.cyan[800],
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text('See all...'),
-              style: TextButton.styleFrom(foregroundColor: Colors.cyan[800]),
+          ),
+          TextFormField(
+            // initialValue: _initValues['description'],
+            decoration: InputDecoration(
+              labelText: 'Description',
+              border: OutlineInputBorder(),
             ),
-          ],
-        ),
-      ],
+            controller: _selectedReason,
+            maxLines: 3,
+            keyboardType: TextInputType.multiline,
+            // focusNode: _priceFocusNode,
+            validator: (value) {
+              if (value.isEmpty) {
+                return "Please enter a description";
+              }
+              if (value.length < 10) {
+                return "Should be at least 10 characters long";
+              }
+              return null;
+            },
+            // onFieldSubmitted: (_) {
+            //   _saveform();
+            // },
+            onSaved: (value) {
+              _editedVacation = Vacation(
+                reason: value,
+                startdate: _editedVacation.startdate,
+                enddate: _editedVacation.enddate,
+                id: _editedVacation.id,
+              );
+            },
+          ),
+
+          // Container(
+          //   height: 150,
+          //   child: TextField(
+          //     maxLength: 250,
+          //     expands: true,
+          //     maxLines: null,
+          //     controller: _reasonController,
+          //     decoration: InputDecoration(
+          //       border: OutlineInputBorder(),
+          //       contentPadding: null,
+          //     ),
+          //     // onSubmitted: (_) => _submitData,
+          //   ),
+          // ),
+          // ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: _saveform,
+                child: Text('Submit'),
+                style: TextButton.styleFrom(backgroundColor: Colors.cyan[800]),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text('See all...'),
+                style: TextButton.styleFrom(foregroundColor: Colors.cyan[800]),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

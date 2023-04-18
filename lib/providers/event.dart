@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Events {
+class Event with ChangeNotifier {
   final String id;
   final String title;
   final DateTime eventdate;
@@ -9,7 +9,7 @@ class Events {
   final String host;
   final List<String> tags;
 
-  Events({
+  Event({
     @required this.id,
     @required this.title,
     @required this.eventdate,

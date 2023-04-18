@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:planar_fluteer_version/providers/request.dart';
+import 'package:planar_fluteer_version/providers/events.dart';
+import 'package:planar_fluteer_version/providers/requests.dart';
+import 'package:planar_fluteer_version/providers/vacation.dart';
 import 'package:planar_fluteer_version/screen/event_detail.dart';
 import 'package:planar_fluteer_version/screen/singleday_screen.dart';
 import '../screen/calendar_screen.dart';
@@ -10,6 +14,7 @@ import '../screen/roster_screen.dart';
 import '../screen/setting_screen.dart';
 import 'screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(HomePage());
 
@@ -22,41 +27,54 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HomePage',
-      theme: ThemeData(
-          primaryColor: Colors.cyan[600],
-          accentColor: Colors.cyan[800],
-          textTheme: ThemeData.light().textTheme.copyWith(
-              bodyText1: TextStyle(color: Colors.grey[600]),
-              bodyText2: TextStyle(color: Colors.grey[600]),
-              headline6: TextStyle(fontSize: 20))),
-      home: HomeScreen(),
-      // initialRoute: '/home',
-      routes: {
-        // '/': (ctx) => HomeScreen(),
-        RosterScreen.routeName: (ctx) => RosterScreen(),
-        EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
-        VacationsScreen.routeName: (ctx) => VacationsScreen(),
-        SingleDayScreen.routeName: (ctx) => SingleDayScreen(),
-        UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
-        CalendarScreen.routeName: (ctx) => CalendarScreen(),
-        InboxScreen.routeName: (ctx) => InboxScreen(),
-        ProfileScreen.routeName: (ctx) => ProfileScreen(),
-        LogoutScreen.routeName: (ctx) => LogoutScreen(),
-        SettingsScreen.routeName: (ctx) => SettingsScreen(),
-      },
-      onGenerateRoute: (settings) {
-        print(settings.arguments);
-        // return MaterialPageRoute(
-        //   builder: (ctx) => CategoriesScreen(),
-        // );
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (ctx) => HomeScreen(),
-        );
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Events(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Vacations(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Requests(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'HomePage',
+        theme: ThemeData(
+            primaryColor: Colors.cyan[600],
+            accentColor: Colors.cyan[800],
+            textTheme: ThemeData.light().textTheme.copyWith(
+                bodyText1: TextStyle(color: Colors.grey[600]),
+                bodyText2: TextStyle(color: Colors.grey[600]),
+                headline6: TextStyle(fontSize: 20))),
+        home: HomeScreen(),
+        // initialRoute: '/home',
+        routes: {
+          // '/': (ctx) => HomeScreen(),
+          RosterScreen.routeName: (ctx) => RosterScreen(),
+          EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
+          VacationsScreen.routeName: (ctx) => VacationsScreen(),
+          SingleDayScreen.routeName: (ctx) => SingleDayScreen(),
+          UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
+          CalendarScreen.routeName: (ctx) => CalendarScreen(),
+          InboxScreen.routeName: (ctx) => InboxScreen(),
+          ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          LogoutScreen.routeName: (ctx) => LogoutScreen(),
+          SettingsScreen.routeName: (ctx) => SettingsScreen(),
+        },
+        onGenerateRoute: (settings) {
+          print(settings.arguments);
+          // return MaterialPageRoute(
+          //   builder: (ctx) => CategoriesScreen(),
+          // );
+        },
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (ctx) => HomeScreen(),
+          );
+        },
+      ),
     );
   }
 }

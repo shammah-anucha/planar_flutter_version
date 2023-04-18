@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:planar_fluteer_version/providers/events.dart';
 import 'package:planar_fluteer_version/widgets/navbar.dart';
-import '../data.dart';
+import 'package:planar_fluteer_version/widgets/home_item.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -14,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final eventsData = Provider.of<Events>(context);
+    final events = eventsData.items;
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -49,27 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 20,
               ),
-              Column(
-                children: events.map((event) {
-                  return Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Column(
-                      children: [
-                        Card(
-                            child: Image.network(
-                          event.imageUrl,
-                          height: 150,
-                        )),
-                        Text(
-                          event.title,
-                          style:
-                              TextStyle(color: Theme.of(context).accentColor),
-                        )
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+              Expanded(
+                child: ListView.builder(
+                    itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                          value: events[i],
+                          child: HomeItem(),
+                        ),
+                    itemCount: events.length),
+              )
             ],
           ),
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:planar_fluteer_version/models/request.dart';
+import 'package:planar_fluteer_version/providers/requests.dart';
 import 'package:planar_fluteer_version/widgets/navbar.dart';
-import 'package:intl/intl.dart';
-import '../data.dart';
+import 'package:planar_fluteer_version/widgets/inbox_item.dart';
+import 'package:provider/provider.dart';
 
 class InboxScreen extends StatefulWidget {
   static const routeName = '/inbox';
@@ -16,6 +16,8 @@ class _InboxScreenState extends State<InboxScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final requestsData = Provider.of<Requests>(context);
+    final requests = requestsData.items;
     return Scaffold(
         appBar: AppBar(
           title: Text('Inbox'),
@@ -45,53 +47,14 @@ class _InboxScreenState extends State<InboxScreen> {
                 ),
               ),
             ),
-            // SizedBox(height: 2),
-            Column(
-                children: requests.map((request) {
-              return Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ListTile(
-                  title: Text(
-                    request.title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).accentColor),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(request.role),
-                      Text(DateFormat.yMMMEd()
-                          .format(request.eventdate)
-                          .toString()),
-                      Row(
-                        children: [
-                          ElevatedButton(
-                              onPressed: null,
-                              child: Text(
-                                'Accept',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.green,
-                              )),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
-                              onPressed: null,
-                              child: Text('Decline',
-                                  style: TextStyle(color: Colors.white)),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.red,
-                              ))
-                        ],
+            Expanded(
+              child: ListView.builder(
+                  itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                        value: requests[i],
+                        child: InboxItem(),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList())
+                  itemCount: requests.length),
+            ),
           ]),
           drawer: NavBar(),
         ));

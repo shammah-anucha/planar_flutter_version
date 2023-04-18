@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:planar_fluteer_version/models/request.dart';
-import 'package:planar_fluteer_version/widgets/navbar.dart';
-import 'package:intl/intl.dart';
-import '../data.dart';
+import '../providers/requests.dart';
+import '../widgets/navbar.dart';
+import '../widgets/roster_item.dart';
+import 'package:provider/provider.dart';
 
 class RosterScreen extends StatelessWidget {
   static const routeName = '/roster';
@@ -11,6 +11,9 @@ class RosterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final request = Provider.of<Request>(context, listen: false);
+    final requestsData = Provider.of<Requests>(context);
+    final requests = requestsData.items;
     // final requestId =
     //     ModalRoute.of(context).settings.arguments as Map<String, String>;
     // final selectedRequest = requests.map((request) => request.id == requestId);
@@ -33,51 +36,10 @@ class RosterScreen extends StatelessWidget {
         key: _scaffoldkey,
         drawer: NavBar(),
         body: ListView.builder(
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.all(15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: Colors.teal[100],
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              DateFormat.yMMMEd()
-                                  .format(requests[index].eventdate)
-                                  .toString(),
-                              style: TextStyle(color: Colors.teal[800]),
-                            ),
-                            Icon(
-                              Icons.edit,
-                              size: 10,
-                              color: Theme.of(context).accentColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            requests[index].title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).accentColor),
-                          ),
-                          TextButton(
-                              onPressed: null, child: Text('Other Volunteers'))
-                        ],
-                      ),
-                      Text(requests[index].role,
-                          style:
-                              TextStyle(color: Theme.of(context).accentColor))
-                    ]),
-              );
-            },
+            itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                  value: requests[i],
+                  child: RosterItem(),
+                ),
             itemCount: requests.length),
       ),
     );

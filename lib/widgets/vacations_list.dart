@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import '../models/vacation.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../providers/vacation.dart';
 
 class VacationList extends StatelessWidget {
-  final List<Vacation> vacations;
-  final Function deleteVc;
+  // final List<Vacation> vacations;
+  // final Function deleteVc;
 
-  VacationList(this.vacations, this.deleteVc);
+  // VacationList(this.vacations, this.deleteVc);
 
   @override
   Widget build(BuildContext context) {
+    final vacationsData = Provider.of<Vacations>(context);
+    final vacations = vacationsData.items;
     return Container(
       height: 1000,
       child: vacations.isEmpty
           ? Text(
-              'Nothing to Display',
+              'No Vacations Added',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -44,12 +46,10 @@ class VacationList extends StatelessWidget {
                       ],
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Colors.redAccent,
-                      onPressed: () => deleteVc(
-                        vacations[1].id.toString(),
-                      ),
-                    ),
+                        icon: Icon(Icons.delete),
+                        color: Colors.redAccent,
+                        onPressed: () =>
+                            vacationsData.deleteVacation(vacations[index].id)),
                   ),
                 );
               }),

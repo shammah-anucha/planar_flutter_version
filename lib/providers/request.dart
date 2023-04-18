@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-class Request {
+class Request with ChangeNotifier {
   final String id;
   final String title;
   final String role;
