@@ -16,9 +16,9 @@ class EventDetailScreen extends StatelessWidget {
         Provider.of<Events>(context, listen: false).findById(eventId);
     // final eventId = ModalRoute.of(context).settings.arguments as String;
     // final selectedEvent = events.firstWhere((event) => event.id == eventId);
-    final String extract_tags = selectedEvent.tags.reduce((value, element) {
-      return value + ', ' + element;
-    });
+    // final String extract_tags = selectedEvent.tags.reduce((value, element) {
+    //   return value + ', ' + element;
+    // });
 
     Widget buildSectionTitle(BuildContext context, String title, String text) {
       return Container(
@@ -76,7 +76,7 @@ class EventDetailScreen extends StatelessWidget {
                   textAlign: TextAlign.justify,
                 ),
                 buildSectionTitle(context, 'Organizer: ', selectedEvent.host),
-                buildSectionTitle(context, 'Tags: ', extract_tags),
+                // buildSectionTitle(context, 'Tags: ', extract_tags),
                 ElevatedButton(
                     onPressed: null,
                     child: Text(

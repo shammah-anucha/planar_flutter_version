@@ -17,14 +17,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TextEditingController _selectedEventDate = TextEditingController();
   final _form = GlobalKey<FormState>();
   var _editedEvent = Event(
-    id: null,
+    event_id: null,
     title: '',
     eventdate: '',
     imageUrl: '',
     location: '',
     location_url: '',
     host: '',
-    tags: [],
+    // tags: [],
   );
   var _initValues = {
     'title': '',
@@ -34,7 +34,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     'location': '',
     'location_url': '',
     'host': '',
-    'tags': '',
+    // 'tags': '',
   };
   var _isInit = true;
   var _isLoading = false;
@@ -54,13 +54,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             Provider.of<Events>(context, listen: false).findById(eventId);
         _initValues = {
           'title': _editedEvent.title,
-          // 'eventdate': _editedEvent.eventdate,
+          'eventdate': _editedEvent.eventdate,
           'time': _editedEvent.time,
           'location': _editedEvent.location,
           'location_url': _editedEvent.location_url,
           'host': _editedEvent.host,
-          'tags': '',
-          'imageUrl': '',
+          // 'tags': '',
+          'imageUrl': _editedEvent.imageUrl,
         };
         _imageUrlController.text = _editedEvent.imageUrl;
         _selectedEventDate.text = _editedEvent.eventdate.toString();
@@ -119,9 +119,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedEvent.id != null) {
+    if (_editedEvent.event_id != null) {
       Provider.of<Events>(context, listen: false)
-          .updateEvent(_editedEvent.id, _editedEvent);
+          .updateEvent(_editedEvent.event_id, _editedEvent);
       setState(() {
         _isLoading = false;
       });
@@ -202,7 +202,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           // },
                           onSaved: (value) {
                             _editedEvent = Event(
-                              id: _editedEvent.id,
+                              event_id: _editedEvent.event_id,
                               title: value,
                               eventdate: _editedEvent.eventdate,
                               time: _editedEvent.time,
@@ -210,7 +210,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               location: _editedEvent.location,
                               location_url: _editedEvent.location_url,
                               host: _editedEvent.host,
-                              tags: _editedEvent.tags,
+                              // tags: _editedEvent.tags,
                             );
                           },
                         ),
@@ -249,7 +249,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     // },
                                     onSaved: (value) {
                                       _editedEvent = Event(
-                                        id: _editedEvent.id,
+                                        event_id: _editedEvent.event_id,
                                         title: _editedEvent.title,
                                         eventdate: _editedEvent.eventdate,
                                         imageUrl: _editedEvent.imageUrl,
@@ -257,7 +257,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         location: _editedEvent.location,
                                         location_url: _editedEvent.location_url,
                                         host: _editedEvent.host,
-                                        tags: _editedEvent.tags,
+                                        // tags: _editedEvent.tags,
                                       );
                                     },
                                   ),
@@ -295,7 +295,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     onTap: _presentEventDatePicker,
                                     onSaved: (value) {
                                       _editedEvent = Event(
-                                        id: _editedEvent.id,
+                                        event_id: _editedEvent.event_id,
                                         title: _editedEvent.title,
                                         eventdate: value,
                                         time: _editedEvent.time,
@@ -303,7 +303,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         location: _editedEvent.location,
                                         location_url: _editedEvent.location_url,
                                         host: _editedEvent.host,
-                                        tags: _editedEvent.tags,
+                                        // tags: _editedEvent.tags,
                                       );
                                     },
                                   ),
@@ -340,7 +340,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           // },
                           onSaved: (value) {
                             _editedEvent = Event(
-                              id: _editedEvent.id,
+                              event_id: _editedEvent.event_id,
                               title: _editedEvent.title,
                               eventdate: _editedEvent.eventdate,
                               time: _editedEvent.time,
@@ -348,7 +348,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               location: value,
                               location_url: _editedEvent.location_url,
                               host: _editedEvent.host,
-                              tags: _editedEvent.tags,
+                              // tags: _editedEvent.tags,
                             );
                           },
                         ),
@@ -381,7 +381,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           keyboardType: TextInputType.url,
                           onSaved: (value) {
                             _editedEvent = Event(
-                              id: _editedEvent.id,
+                              event_id: _editedEvent.event_id,
                               title: _editedEvent.title,
                               eventdate: _editedEvent.eventdate,
                               time: _editedEvent.time,
@@ -389,7 +389,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               location: _editedEvent.location,
                               location_url: value,
                               host: _editedEvent.host,
-                              tags: _editedEvent.tags,
+                              // tags: _editedEvent.tags,
                             );
                           },
                         ),
@@ -421,7 +421,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           // },
                           onSaved: (value) {
                             _editedEvent = Event(
-                              id: _editedEvent.id,
+                              event_id: _editedEvent.event_id,
                               title: _editedEvent.title,
                               eventdate: _editedEvent.eventdate,
                               time: _editedEvent.time,
@@ -429,7 +429,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               location: _editedEvent.location,
                               location_url: _editedEvent.location_url,
                               host: value,
-                              tags: _editedEvent.tags,
+                              // tags: _editedEvent.tags,
                             );
                           },
                         ),
@@ -469,7 +469,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 },
                                 onSaved: (value) {
                                   _editedEvent = Event(
-                                    id: _editedEvent.id,
+                                    event_id: _editedEvent.event_id,
                                     title: _editedEvent.title,
                                     eventdate: _editedEvent.eventdate,
                                     time: _editedEvent.time,
@@ -477,7 +477,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     location: _editedEvent.location,
                                     location_url: _editedEvent.location_url,
                                     host: _editedEvent.host,
-                                    tags: _editedEvent.tags,
+                                    // tags: _editedEvent.tags,
                                   );
                                 },
                                 onFieldSubmitted: (_) {

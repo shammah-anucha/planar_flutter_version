@@ -18,8 +18,8 @@ class _EventItemState extends State<EventItem> {
         child: InkWell(
           onTap: (() {
             setState(() {
-              Navigator.of(context)
-                  .pushNamed(EventDetailScreen.routeName, arguments: event.id);
+              Navigator.of(context).pushNamed(EventDetailScreen.routeName,
+                  arguments: event.event_id);
             });
           }),
           child: Column(

@@ -13,6 +13,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
+  bool _showOnlyFavorites = false;
+  var _isInit = false;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    _isLoading = true;
+    Provider.of<Events>(context, listen: false).fetchAndSetEvents().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

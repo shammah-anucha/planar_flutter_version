@@ -28,8 +28,8 @@ class AdminEventsScreen extends StatelessWidget {
         child: ListView.builder(
           itemBuilder: (_, i) => Column(
             children: [
-              EditEventItem(eventsData.items[i].id, eventsData.items[i].title,
-                  eventsData.items[i].imageUrl),
+              EditEventItem(eventsData.items[i].event_id,
+                  eventsData.items[i].title, eventsData.items[i].imageUrl),
               Divider(),
             ],
           ),
