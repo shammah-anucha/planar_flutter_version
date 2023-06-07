@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:planar_fluteer_version/providers/vacation.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
 class NewVacation extends StatefulWidget {
   // final Function addVacation;
@@ -21,7 +22,7 @@ class _NewVacationState extends State<NewVacation> {
   TextEditingController _selectedEndDate = TextEditingController();
   TextEditingController _selectedReason = TextEditingController();
   var _editedVacation = Vacation(
-    id: null,
+    vac_id: null,
     reason: '',
     startdate: '',
     enddate: '',
@@ -32,6 +33,23 @@ class _NewVacationState extends State<NewVacation> {
     'startdate': '',
     'enddate': '',
   };
+
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    _isLoading = true;
+    final authData = Provider.of<Auth>(context, listen: false);
+    Provider.of<Vacations>(context, listen: false)
+        .fetchAndSetVacations(authData.user_id)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -56,6 +74,7 @@ class _NewVacationState extends State<NewVacation> {
 
   void _saveform() {
     final isValid = _form.currentState.validate();
+
     if (!isValid) {
       return;
     }
@@ -63,16 +82,17 @@ class _NewVacationState extends State<NewVacation> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedVacation.id != null) {
+    if (_editedVacation.vac_id != null) {
       Provider.of<Vacations>(context, listen: false)
-          .updateProduct(_editedVacation.id, _editedVacation);
+          .updateProduct(_editedVacation.vac_id, _editedVacation);
       setState(() {
         _isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
+      final authData = Provider.of<Auth>(context, listen: false);
       Provider.of<Vacations>(context, listen: false)
-          .addVacation(_editedVacation);
+          .addVacation(_editedVacation, authData.token);
       setState(() {
         _isLoading = false;
       });
@@ -81,6 +101,12 @@ class _NewVacationState extends State<NewVacation> {
       _selectedReason.clear();
       // Navigator.of(context).pop();
     }
+  }
+
+  void _showall() {
+    final authData = Provider.of<Auth>(context, listen: false);
+    Provider.of<Vacations>(context, listen: false)
+        .fetchAndSetVacations(authData.token);
   }
 
   // void _submitData() {
@@ -180,7 +206,7 @@ class _NewVacationState extends State<NewVacation> {
                 reason: _editedVacation.reason,
                 startdate: value,
                 enddate: _editedVacation.enddate,
-                id: _editedVacation.id,
+                vac_id: _editedVacation.vac_id,
               );
             },
           ),
@@ -217,7 +243,7 @@ class _NewVacationState extends State<NewVacation> {
                 reason: _editedVacation.reason,
                 startdate: _editedVacation.startdate,
                 enddate: value,
-                id: _editedVacation.id,
+                vac_id: _editedVacation.vac_id,
               );
             },
           ),
@@ -268,7 +294,7 @@ class _NewVacationState extends State<NewVacation> {
                 reason: value,
                 startdate: _editedVacation.startdate,
                 enddate: _editedVacation.enddate,
-                id: _editedVacation.id,
+                vac_id: _editedVacation.vac_id,
               );
             },
           ),
@@ -300,7 +326,7 @@ class _NewVacationState extends State<NewVacation> {
                 style: TextButton.styleFrom(backgroundColor: Colors.cyan[800]),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: _showall,
                 child: Text('See all...'),
                 style: TextButton.styleFrom(foregroundColor: Colors.cyan[800]),
               ),

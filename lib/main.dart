@@ -5,6 +5,7 @@ import 'package:planar_fluteer_version/providers/requests.dart';
 import 'package:planar_fluteer_version/providers/vacation.dart';
 import 'package:planar_fluteer_version/screen/admin/all_events.dart';
 import 'package:planar_fluteer_version/screen/event_detail.dart';
+import 'package:planar_fluteer_version/screen/signup_screen.dart';
 import 'package:planar_fluteer_version/screen/singleday_screen.dart';
 import 'package:planar_fluteer_version/widgets/admin/edit_event_item.dart';
 import '../screen/calendar_screen.dart';
@@ -19,6 +20,10 @@ import 'screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
 import '../screen/admin/create_event.dart';
 import 'package:provider/provider.dart';
+import 'screen/login_screen.dart';
+import './providers/users.dart';
+import './providers/auth.dart';
+import './screen/splash_screen.dart';
 
 void main() => runApp(HomePage());
 
@@ -34,53 +39,78 @@ class _HomePageState extends State<HomePage> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => Events(),
+          create: (ctx) => Auth(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Vacations(),
+          create: (ctx) => Events(),
         ),
+        ChangeNotifierProxyProvider<Auth, Vacations>(
+          update: (ctx, auth, previousVacations) => Vacations(
+              previousVacations == null ? [] : previousVacations.vacations,
+              auth.token,
+              auth.user_id),
+        ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Vacations(),
+        // ),
         ChangeNotifierProvider(
           create: (ctx) => Requests(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => Users(),
+        ),
       ],
-      child: MaterialApp(
-        title: 'HomePage',
-        theme: ThemeData(
-            primaryColor: Colors.cyan[600],
-            accentColor: Colors.cyan[800],
-            textTheme: ThemeData.light().textTheme.copyWith(
-                bodyText1: TextStyle(color: Colors.grey[600]),
-                bodyText2: TextStyle(color: Colors.grey[600]),
-                headline6: TextStyle(fontSize: 20))),
-        home: HomeScreen(),
-        // initialRoute: '/home',
-        routes: {
-          // '/': (ctx) => HomeScreen(),
-          RosterScreen.routeName: (ctx) => RosterScreen(),
-          EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
-          VacationsScreen.routeName: (ctx) => VacationsScreen(),
-          SingleDayScreen.routeName: (ctx) => SingleDayScreen(),
-          UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
-          CalendarScreen.routeName: (ctx) => CalendarScreen(),
-          InboxScreen.routeName: (ctx) => InboxScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
-          AdminScreen.routeName: (ctx) => AdminScreen(),
-          LogoutScreen.routeName: (ctx) => LogoutScreen(),
-          SettingsScreen.routeName: (ctx) => SettingsScreen(),
-          CreateEventScreen.routeName: (ctx) => CreateEventScreen(),
-          AdminEventsScreen.routeName: (ctx) => AdminEventsScreen(),
-        },
-        onGenerateRoute: (settings) {
-          print(settings.arguments);
-          // return MaterialPageRoute(
-          //   builder: (ctx) => CategoriesScreen(),
-          // );
-        },
-        onUnknownRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (ctx) => HomeScreen(),
-          );
-        },
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'HomePage',
+          theme: ThemeData(
+              primaryColor: Colors.cyan[600],
+              accentColor: Colors.cyan[800],
+              textTheme: ThemeData.light().textTheme.copyWith(
+                  bodyText1: TextStyle(color: Colors.grey[600]),
+                  bodyText2: TextStyle(color: Colors.grey[600]),
+                  headline6: TextStyle(fontSize: 20))),
+          home: auth.isAuth
+              ? HomeScreen()
+              : FutureBuilder(
+                  // future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
+          routes: {
+            // '/': (ctx) => HomeScreen(),
+            RosterScreen.routeName: (ctx) => RosterScreen(),
+            EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
+            VacationsScreen.routeName: (ctx) => VacationsScreen(),
+            SingleDayScreen.routeName: (ctx) => SingleDayScreen(),
+            UpComingEventScreen.routeName: (ctx) => UpComingEventScreen(),
+            CalendarScreen.routeName: (ctx) => CalendarScreen(),
+            InboxScreen.routeName: (ctx) => InboxScreen(),
+            ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            AdminScreen.routeName: (ctx) => AdminScreen(),
+            LogoutScreen.routeName: (ctx) => LogoutScreen(),
+            SettingsScreen.routeName: (ctx) => SettingsScreen(),
+            CreateEventScreen.routeName: (ctx) => CreateEventScreen(),
+            AdminEventsScreen.routeName: (ctx) => AdminEventsScreen(),
+            AuthScreen.routeName: (ctx) => AuthScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+          },
+          // onGenerateRoute: (settings) {
+          //   print(settings.arguments);
+          //   // return MaterialPageRoute(
+          //   //   builder: (ctx) => CategoriesScreen(),
+          //   // );
+          // },
+          // onUnknownRoute: (settings) {
+          //   // return MaterialPageRoute(
+          //   //   builder: (ctx) => AuthScreen(),shmm
+          //   // );
+          // },
+        ),
       ),
     );
   }

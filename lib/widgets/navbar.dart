@@ -10,6 +10,8 @@ import '../screen/setting_screen.dart';
 import '../screen/vacation_screen.dart';
 import '../screen/upcoming_events_screen.dart';
 import '../screen/admin/admin_screen.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -88,7 +90,10 @@ class _NavBarState extends State<NavBar> {
             height: MediaQuery.of(context).size.height * 0.20,
           ),
           buildListTile('Logout', () {
-            Navigator.of(context).pushReplacementNamed(LogoutScreen.routeName);
+            // Navigator.of(context).pushReplacementNamed(LogoutScreen.routeName);
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed('/');
+            Provider.of<Auth>(context, listen: false).logout();
           }),
           buildListTile('Settings', () {
             Navigator.of(context)

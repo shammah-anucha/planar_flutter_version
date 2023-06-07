@@ -5,7 +5,7 @@ import 'package:planar_fluteer_version/widgets/day_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/new_vacation.dart';
 import '../widgets/vacations_list.dart';
-import '../models/vacation.dart';
+import '../providers/vacation.dart';
 import '../widgets/navbar.dart';
 
 class SingleDayScreen extends StatefulWidget {

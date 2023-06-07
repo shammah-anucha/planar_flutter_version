@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/new_vacation.dart';
 import '../widgets/vacations_list.dart';
-import '../models/vacation.dart';
+// import '../models/vacation.dart';
 import '../widgets/navbar.dart';
+import '../providers/vacation.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
 class VacationsScreen extends StatefulWidget {
   static const routeName = '/vacation';
@@ -34,7 +37,7 @@ class _VacationsScreenState extends State<VacationsScreen> {
 
   void _deleteVacation(String id) {
     setState(() {
-      _userVacations.removeWhere((vc) => vc.id == id);
+      _userVacations.removeWhere((vc) => vc.vac_id == id);
     });
   }
 

@@ -64,7 +64,7 @@ class _AdminScreenState extends State<AdminScreen> {
               ListTile(
                 title: Text('Create User'),
                 onTap: (() {
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.of(context).pushReplacementNamed('/auth');
                 }),
               ),
               Divider(),

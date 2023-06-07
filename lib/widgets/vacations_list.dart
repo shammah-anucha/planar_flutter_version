@@ -11,7 +11,7 @@ class VacationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vacationsData = Provider.of<Vacations>(context);
-    final vacations = vacationsData.items;
+    final vacations = vacationsData.vacations;
     return Container(
       height: 1000,
       child: vacations.isEmpty
@@ -48,8 +48,8 @@ class VacationList extends StatelessWidget {
                     trailing: IconButton(
                         icon: Icon(Icons.delete),
                         color: Colors.redAccent,
-                        onPressed: () =>
-                            vacationsData.deleteVacation(vacations[index].id)),
+                        onPressed: () => vacationsData
+                            .deleteVacation(vacations[index].vac_id)),
                   ),
                 );
               }),
